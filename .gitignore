@@ -1,0 +1,21 @@
+# Python-specific
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+myenv/
+
+serviceAccountKey.json
+
+# Logs
+*.log
+
+# IDE-specific
+.vscode/
+.idea/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
