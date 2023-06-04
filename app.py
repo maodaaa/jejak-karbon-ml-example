@@ -44,6 +44,9 @@ def validate_token(f):
             decoded_token = firebase_admin.auth.verify_id_token(token)
             request.user_id = decoded_token['uid']
             request.email = decoded_token['email']
+            # Get the user object to retrieve the username
+            user = firebase_admin.auth.get_user(decoded_token['uid'])
+            request.username = user.display_name
         except firebase_admin.auth.InvalidIdTokenError:
             return jsonify({'error': 'Unauthorized'}), 403
         except firebase_admin.auth.ExpiredIdTokenError:
@@ -104,6 +107,7 @@ def predict():
             'uuid': uuid,
             'user_id': request.user_id,
             'email': request.email,
+            'name': request.username,
             'plant': [
                 {
                     'index': new_plant_index,
@@ -132,6 +136,7 @@ def predict():
             'uuid': uuid,
             'user_id': request.user_id,
             'email': request.email,
+            'name': request.username,
             'plant': [
                 {
                     'index': 0,
@@ -183,6 +188,7 @@ def get_user_data(user_id):
             'data': {
                 'user_id': user_id,
                 'email': request.email,
+                'name': request.username,
                 'plant': plant_list
             }
         }
